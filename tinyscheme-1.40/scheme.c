@@ -1573,7 +1573,10 @@ INTERFACE void putstr(scheme *sc, const char *s) {
 static void putchars(scheme *sc, const char *s, int len) {
   port *pt=sc->outport->_object._port;
   if(pt->kind&port_file) {
-    fwrite(s,1,len,pt->rep.stdio.file);
+       int i;
+       for(i = 0; i < len; ++i)
+            printf("%c", s[i]);
+//    fwrite(s,1,len,pt->rep.stdio.file);
   } else {
     for(;len;len--) {
       if(pt->rep.string.curr!=pt->rep.string.past_the_end) {
