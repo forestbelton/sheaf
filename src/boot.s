@@ -90,3 +90,11 @@ gdt_flush:
     ljmp $0x08, $flush2
 flush2:
     ret
+
+.extern idtp
+.global idt_load
+.type idt_load, @function
+idt_load:
+    lidt idtp
+    ret
+
