@@ -1,6 +1,7 @@
 #ifndef CRT_H_
 #define CRT_H_
 
+#include <limits.h>
 #include <stddef.h>
 #include <stdarg.h>
 #include "mini-printf.h"
@@ -30,6 +31,13 @@ void free(void *);
 char *getenv();
 void abort();
 
+int isalpha(int);
+int isupper(int);
+int isspace(int);
+int isdigit(int);
 int tolower(int);
+int isxdigit(int);
+
+long strtol(const char *str, char **endptr, int base);
 
 #endif

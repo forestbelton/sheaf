@@ -49,10 +49,6 @@ int printf(char *fmt, ...) {
   return 0;
 }
 
-int sscanf(const char *s, const char *fmt, ...) {
-  return 0;
-}
-
 char *strlwr(char *s) {
   char *t = s;
 
@@ -116,8 +112,20 @@ int isdigit(int c) {
   ISCLASS("0123456789");
 }
 
+int isxdigit(int c) {
+  ISCLASS("0123456789abcdefABCDEF");
+}
+
 int isspace(int c) {
   ISCLASS(" \r\n\v\t\f");
+}
+
+int isalpha(int c) {
+  ISCLASS("abcdefghijklmnopqrstuvwxyzABCDEFGHJIJKLMNOPQRSTUVWXYZ");
+}
+
+int isupper(int c) {
+  ISCLASS("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 }
 
 int tolower(int c) {

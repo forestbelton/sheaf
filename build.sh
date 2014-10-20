@@ -8,9 +8,9 @@ mkdir build
 
 CFLAGS="-Iinclude -Imini-printf -std=gnu99 -ffreestanding -O2 -Wall -Wextra \
     -Wno-unused-parameter"
-MODULES=("terminal" "crt" "kernel")
-OBJS="build/boot.o build/terminal.o build/crt.o build/kernel.o"
-OBJS="$OBJS build/mini-printf.o build/malloc.o"
+MODULES=("terminal" "crt" "kernel" "scanf" "strtol")
+OBJS="build/boot.o build/terminal.o build/crt.o build/kernel.o build/scanf.o"
+OBJS="$OBJS build/mini-printf.o build/malloc.o build/strtol.o"
 
 i686-elf-as src/boot.s -o build/boot.o
 
