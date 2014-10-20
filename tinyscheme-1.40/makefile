@@ -57,6 +57,9 @@ STATICLIBTARGET = $(LIBPREFIX)tinyscheme.$(LIBsuf)
 
 all: $(LIBTARGET) $(STATICLIBTARGET) scheme$(EXE_EXT)
 
+mini-printf.$(Osuf) : ../mini-printf/mini-printf.c
+	$(CC) -I. -c $(DEBUG) $(FEATURES) $(DL_FLAGS) $<
+
 %.$(Osuf): %.c
 	$(CC) -I. -c $(DEBUG) $(FEATURES) $(DL_FLAGS) $<
 
