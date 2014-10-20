@@ -1044,7 +1044,7 @@ INTERFACE pointer gensym(scheme *sc) {
      char name[40];
 
      for(; sc->gensym_cnt<LONG_MAX; sc->gensym_cnt++) {
-          snprintf(name,40,"gensym-%ld",sc->gensym_cnt);
+          snprintf(name,40,"gensym-%d",sc->gensym_cnt);
 
           /* first check oblist */
           x = oblist_find_by_name(sc, name);
@@ -1137,14 +1137,14 @@ static pointer mk_sharp_const(scheme *sc, char *name) {
           return (sc->F);
      else if (*name == 'o') {/* #o (octal) */
           snprintf(tmp, STRBUFFSIZE, "0%s", name+1);
-          sscanf(tmp, "%lo", &x);
+          sscanf(tmp, "%o", &x);
           return (mk_integer(sc, x));
      } else if (*name == 'd') {    /* #d (decimal) */
-          sscanf(name+1, "%ld", &x);
+          sscanf(name+1, "%d", &x);
           return (mk_integer(sc, x));
      } else if (*name == 'x') {    /* #x (hex) */
           snprintf(tmp, STRBUFFSIZE, "0x%s", name+1);
-          sscanf(tmp, "%lx", &x);
+          sscanf(tmp, "%x", &x);
           return (mk_integer(sc, x));
      } else if (*name == 'b') {    /* #b (binary) */
           x = binary_decode(name+1);
@@ -1300,7 +1300,7 @@ static void gc(scheme *sc, pointer a, pointer b) {
 
   if (sc->gc_verbose) {
     char msg[80];
-    snprintf(msg,80,"done: %ld cells were recovered.\n", sc->fcells);
+    snprintf(msg,80,"done: %d cells were recovered.\n", sc->fcells);
     putstr(sc,msg);
   }
 }
@@ -1921,7 +1921,7 @@ static void atom2str(scheme *sc, pointer l, int f, char **pp, int *plen) {
      } else if (is_number(l)) {
           p = sc->strbuff;
           if(num_is_integer(l)) {
-        snprintf(p, STRBUFFSIZE, "%ld", ivalue_unchecked(l));
+        snprintf(p, STRBUFFSIZE, "%d", ivalue_unchecked(l));
           } else {
                snprintf(p, STRBUFFSIZE, "%.10g", rvalue_unchecked(l));
           }
@@ -1973,7 +1973,7 @@ static void atom2str(scheme *sc, pointer l, int f, char **pp, int *plen) {
           p = symname(l);
      } else if (is_proc(l)) {
           p = sc->strbuff;
-          snprintf(p,STRBUFFSIZE,"#<%s PROCEDURE %ld>", procname(l),procnum(l));
+          snprintf(p,STRBUFFSIZE,"#<%s PROCEDURE %d>", procname(l),procnum(l));
      } else if (is_macro(l)) {
           p = "#<MACRO>";
      } else if (is_closure(l)) {
@@ -1982,7 +1982,7 @@ static void atom2str(scheme *sc, pointer l, int f, char **pp, int *plen) {
           p = "#<PROMISE>";
      } else if (is_foreign(l)) {
           p = sc->strbuff;
-          snprintf(p,STRBUFFSIZE,"#<FOREIGN PROCEDURE %ld>", procnum(l));
+          snprintf(p,STRBUFFSIZE,"#<FOREIGN PROCEDURE %d>", procnum(l));
      } else if (is_continuation(l)) {
           p = "#<CONTINUATION>";
      } else {
