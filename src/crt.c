@@ -2,6 +2,7 @@
 #include "terminal.h"
 #include "mini-printf.h"
 
+/* stubs */
 FILE *fopen(const char *name, const char *mode) {
   return NULL;
 }
@@ -9,6 +10,31 @@ FILE *fopen(const char *name, const char *mode) {
 void fclose(FILE *f) {
 }
 
+int access(const char *p, int mode) {
+  return 0;
+}
+
+int fwrite(const void *ptr, size_t sz, size_t count, FILE *f) {
+  return 0;
+}
+
+int fgetc(FILE *f) {
+  return EOF;
+}
+
+int fputc(int c, FILE *f) {
+  return 0;
+}
+
+int ungetc(int c, FILE *f) {
+  return 0;
+}
+
+char *getenv(const char *key) {
+  return "";
+}
+
+/* non-stubs */
 int printf(char *fmt, ...) {
   static char buf[100];
   
@@ -24,18 +50,6 @@ int printf(char *fmt, ...) {
 }
 
 int sscanf(const char *s, const char *fmt, ...) {
-  return 0;
-}
-
-int fputs(const char *s, FILE *f) {
-  return 0;
-}
-
-int access(const char *p, int mode) {
-  return 0;
-}
-
-int fwrite(const void *ptr, size_t sz, size_t count, FILE *f) {
   return 0;
 }
 
@@ -85,48 +99,58 @@ void *memcpy(void *dst, void *src, size_t sz) {
   return dst;
 }
 
-int fgetc(FILE *f) {
-  return EOF;
-}
-
-int fputc(int c, FILE *f) {
-  return 0;
-}
-
 int labs(int i) {
   return i > 0 ? i : -i;
 }
 
+#define ISCLASS(cs) do {         \
+  size_t i;                      \
+                                 \
+  for(i = 0; i < sizeof cs; ++i) \
+    if(cs[i] == c)               \
+      return 1;                  \
+  return 0;                      \
+} while(0)
+
 int isdigit(int c) {
-  return 0;
+  ISCLASS("0123456789");
 }
 
 int isspace(int c) {
-  return 0;
-}
-
-int ungetc(int c, FILE *f) {
-  return 0;
-}
-
-char *getenv(const char *key) {
-  return "";
+  ISCLASS(" \r\n\v\t\f");
 }
 
 int tolower(int c) {
-  return c;
+  if(c >= 'A' && c <= 'Z')
+    return (c - 'A') + 'a';
+  else
+    return c;
 }
 
 int toupper(int c) {
-  return c;
+  if(c >= 'a' && c <= 'z')
+    return (c - 'a') + 'A';
+  else
+    return c;
 }
 
 float atof(const char *in) {
   return 0;
 }
 
-int atol(const char *in) {
-  return 0;
+long atol(const char *in) {
+  long sgn = 1, val = 0;
+  
+  if(*in++ == '-') {
+    sgn = -1;
+  }
+
+  while(*in) {
+    val *= 10;
+    val += *in++ - '0';
+  }
+  
+  return val * sgn;
 }
 
 size_t strlen(const char *s) {
@@ -156,4 +180,6 @@ void *sbrk(int inc) {
 }  
 
 void abort() {
+  terminal_writestring("ABORTING...\n");
+  for(;;);
 }

@@ -15,7 +15,6 @@ int printf(char *, ...);
 int fwrite();
 FILE *fopen();
 int sscanf(const char *, const char *, ...);
-int fputs(const char *, FILE *);
 
 FILE *stdout, *stderr, *stdin;
 

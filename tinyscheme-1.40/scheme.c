@@ -1558,7 +1558,7 @@ static int realloc_port_string(scheme *sc, port *p)
 INTERFACE void putstr(scheme *sc, const char *s) {
   port *pt=sc->outport->_object._port;
   if(pt->kind&port_file) {
-    fputs(s,pt->rep.stdio.file);
+    printf("%s\n", s);
   } else {
     for(;*s;s++) {
       if(pt->rep.string.curr!=pt->rep.string.past_the_end) {
