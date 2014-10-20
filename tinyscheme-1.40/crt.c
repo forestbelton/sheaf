@@ -1,0 +1,108 @@
+#include "crt.h"
+
+FILE *fopen(const char *name, const char *mode) {
+  return NULL;
+}
+
+void fclose(FILE *f) {}
+
+int fprintf(FILE *f, const char *fmt, ...) {
+  return 0;
+}
+
+int printf(const char *fmt, ...) {
+  return 0;
+}
+
+int snprintf(char *s, size_t n, const char *fmt, ...) {
+  return 0;
+}
+
+int sscanf(const char *s, const char *fmt, ...) {
+  return 0;
+}
+
+int fputs(FILE *f, const char *s) {
+  return 0;
+}
+
+int access(const char *p, int mode) {
+  return 0;
+}
+
+int fwrite(const void *ptr, size_t sz, size_t count, FILE *f) {
+  return 0;
+}
+
+char *strlwr(char *s) {
+  return s;
+}
+
+int strcmp(const char *s1, const char *s2) {
+  return 0;
+}
+
+int stricmp(const char *s1, const char *s2) {
+  return 0;
+}
+
+char *strcpy(char *dst, const char *src) {
+  return dst;
+}
+
+void *memcpy(void *dst, void *src, size_t sz) {
+  return dst;
+}
+
+int fgetc(FILE *f) {
+  return EOF;
+}
+
+int fputc(int c, FILE *f) {}
+
+int labs(int i) {
+  return i > 0 ? i : -i;
+}
+
+int isdigit(int c) {
+  return 0;
+}
+
+int isspace(int c) {
+  return 0;
+}
+
+int ungetc(int c, FILE *f) {
+  return 0;
+}
+
+char *getenv(const char *key) {
+  return "";
+}
+
+int tolower(int c) {
+  return c;
+}
+
+int toupper(int c) {
+  return c;
+}
+
+float atof(const char *in) {
+  return 0;
+}
+
+int atol(const char *in) {
+  return 0;
+}
+
+size_t strlen(const char *s) {
+  return 0;
+}
+
+void *malloc(size_t len) { return NULL; }
+void free(void *p) {}
+
+void *memset(void *p, int val, size_t cnt) {
+  return p;
+}

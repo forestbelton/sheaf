@@ -18,8 +18,8 @@
 #AR= echo
 
 # Unix, generally
-CC = ../tools/toolchain/bin/i686-elf-gcc -fpic
-DEBUG=-g -Wall -Wno-char-subscripts -O
+CC = ../tools/toolchain/bin/i686-elf-gcc -fpic -ffreestanding -nostdlib
+DEBUG=-Wall -Wno-char-subscripts -O
 Osuf=o
 SOsuf=so
 LIBsuf=a
@@ -33,8 +33,6 @@ AR= ar crs
 LD = ../tools/toolchain/bin/i686-elf-ld
 LDFLAGS = -shared
 DEBUG=-g -Wno-char-subscripts -O
-SYS_LIBS= -ldl
-PLATFORM_FEATURES= -DSUN_DL=1
 
 # Cygwin
 #PLATFORM_FEATURES = -DUSE_STRLWR=0
@@ -50,9 +48,9 @@ PLATFORM_FEATURES= -DSUN_DL=1
 #LIBPREFIX = lib
 #OUT = -o $@
 
-FEATURES = $(PLATFORM_FEATURES) -DUSE_DL=1 -DUSE_MATH=0 -DUSE_ASCII_NAMES=0
+FEATURES = $(PLATFORM_FEATURES) -DUSE_NO_FEATURES=1 -DUSE_STRCASECMP=0
 
-OBJS = scheme.$(Osuf) dynload.$(Osuf)
+OBJS = scheme.$(Osuf) crt.$(Osuf)
 
 LIBTARGET = $(LIBPREFIX)tinyscheme.$(SOsuf)
 STATICLIBTARGET = $(LIBPREFIX)tinyscheme.$(LIBsuf)
@@ -71,8 +69,7 @@ scheme$(EXE_EXT): $(OBJS)
 $(STATICLIBTARGET): $(OBJS)
 	$(AR) $@ $(OBJS)
 
-$(OBJS): scheme.h scheme-private.h opdefines.h
-dynload.$(Osuf): dynload.h
+$(OBJS): scheme.h scheme-private.h opdefines.h crt.h
 
 clean:
 	$(RM) $(OBJS) $(LIBTARGET) $(STATICLIBTARGET) scheme$(EXE_EXT)
@@ -80,7 +77,7 @@ clean:
 	$(RM) scheme.ilk scheme.map scheme.pdb scheme.lib scheme.exp
 	$(RM) *~
 
-TAGS_SRCS = scheme.h scheme.c dynload.h dynload.c
+TAGS_SRCS = scheme.h scheme.c crt.h crt.c
 
 tags: TAGS
 TAGS: $(TAGS_SRCS)

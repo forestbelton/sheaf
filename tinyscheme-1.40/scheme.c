@@ -14,12 +14,6 @@
 
 #define _SCHEME_SOURCE
 #include "scheme-private.h"
-#ifndef WIN32
-# include <unistd.h>
-#endif
-#ifdef WIN32
-#define snprintf _snprintf
-#endif
 #if USE_DL
 # include "dynload.h"
 #endif
@@ -29,7 +23,7 @@
 
 #include <limits.h>
 #include <float.h>
-#include <ctype.h>
+//#include <ctype.h>
 
 #if USE_STRCASECMP
 #include <strings.h>
@@ -63,9 +57,6 @@
  */
 
 #define banner "TinyScheme 1.39"
-
-#include <string.h>
-#include <stdlib.h>
 
 #ifdef __APPLE__
 static int stricmp(const char *s1, const char *s2)
