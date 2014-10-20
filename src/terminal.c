@@ -79,6 +79,12 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
  
 void terminal_putchar(char c)
 {
+  if(c == '\n') {
+    if(++terminal_row == VGA_HEIGHT) {
+      terminal_row = 0;
+    }
+  }
+  
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 	if ( ++terminal_column == VGA_WIDTH )
 	{
@@ -92,7 +98,6 @@ void terminal_putchar(char c)
  
 void terminal_writestring(const char* data)
 {
-	size_t datalen = strlen(data);
-	for ( size_t i = 0; i < datalen; i++ )
-		terminal_putchar(data[i]);
+  while(*data)
+    terminal_putchar(*data++);
 }
