@@ -1,6 +1,5 @@
 #include "crt.h"
 #include "terminal.h"
-#include <stdarg.h>
 #include "mini-printf.h"
 
 FILE *fopen(const char *name, const char *mode) {

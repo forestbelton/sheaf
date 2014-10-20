@@ -1,13 +1,13 @@
 #ifndef CRT_H_
 #define CRT_H_
 
+#include <stddef.h>
+#include <stdarg.h>
 #include "mini-printf.h"
 
 // stdio.h
-#define NULL 0
 #define EOF -1
 typedef struct FILE FILE;
-typedef unsigned int size_t;
 
 int printf(char *, ...);
 int fwrite();
