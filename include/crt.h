@@ -5,6 +5,8 @@
 #include <stdarg.h>
 #include "mini-printf.h"
 
+#define BASE_HEAP 0x100000
+
 // stdio.h
 #define EOF -1
 typedef struct FILE FILE;
@@ -24,9 +26,10 @@ void *memcpy();
 void *memset();
 
 // stdlib.h
-void *malloc();
-void free();
+void *malloc(size_t);
+void free(void *);
 char *getenv();
+void abort();
 
 int tolower(int);
 

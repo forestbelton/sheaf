@@ -138,9 +138,6 @@ size_t strlen(const char *s) {
   return i;
 }
 
-void *malloc(size_t len) { return NULL; }
-void free(void *p) {}
-
 void *memset(void *p, int val, size_t cnt) {
   char *pp = p;
 
@@ -148,4 +145,15 @@ void *memset(void *p, int val, size_t cnt) {
     *pp++ = val;
   
   return p;
+}
+
+void *sbrk(int inc) {
+  static char *memptr = (char *)BASE_HEAP;
+  char *old = memptr;
+
+  memptr += inc;
+  return old;
+}  
+
+void abort() {
 }
