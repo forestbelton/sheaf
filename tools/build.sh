@@ -67,3 +67,26 @@ cd ..
 # make all-target-libgcc
 # make install-gcc
 # make install-target-libgcc
+
+git clone https://github.com/vertis/objconv.git
+cd objconv
+g++ -o objconv -O2 src/*.cpp
+cd ..
+
+PATH="$(pwd)/objconv:$PATH"
+git clone git://git.savannah.gnu.org/grub.git
+cd grub
+./autogen.sh
+cd ..
+rm -rf grub-build
+mkdir grub-build
+cd grub-build
+../grub/configure --disable-werror \
+    "TARGET_CC=$PREFIX/bin/i686-elf-gcc" \
+    "TARGET_OBJCOPY=$PREFIX/bin/i686-elf-objcopy" \
+    "TARGET_STRIP=$PREFIX/bin/i686-elf-strip" \
+    "TARGET_NM=$PREFIX/bin/i686-elf-nm" \
+    "TARGET_RANLIB=$PREFIX/bin/i686-elf-ranlib" \
+    --target=i686-elf "--prefix=$PREFIX"
+make
+make install

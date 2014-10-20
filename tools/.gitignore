@@ -4,3 +4,6 @@ gmp-*
 mpfr-*
 binutils-*
 mpc-*
+grub
+grub-build
+objconv
