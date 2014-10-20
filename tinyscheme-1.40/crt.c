@@ -14,10 +14,6 @@ int printf(const char *fmt, ...) {
   return 0;
 }
 
-int snprintf(char *s, size_t n, const char *fmt, ...) {
-  return 0;
-}
-
 int sscanf(const char *s, const char *fmt, ...) {
   return 0;
 }

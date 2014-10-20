@@ -18,7 +18,7 @@
 #AR= echo
 
 # Unix, generally
-CC = ../tools/toolchain/bin/i686-elf-gcc -fpic -ffreestanding -nostdlib
+CC = ../tools/toolchain/bin/i686-elf-gcc -fpic -ffreestanding -nostdlib -I../mini-printf
 DEBUG=-Wall -Wno-char-subscripts -O
 Osuf=o
 SOsuf=so
@@ -50,7 +50,7 @@ DEBUG=-g -Wno-char-subscripts -O
 
 FEATURES = $(PLATFORM_FEATURES) -DUSE_NO_FEATURES=1 -DUSE_STRCASECMP=0
 
-OBJS = scheme.$(Osuf) crt.$(Osuf)
+OBJS = scheme.$(Osuf) crt.$(Osuf) mini-printf.$(Osuf)
 
 LIBTARGET = $(LIBPREFIX)tinyscheme.$(SOsuf)
 STATICLIBTARGET = $(LIBPREFIX)tinyscheme.$(LIBsuf)
@@ -69,7 +69,7 @@ scheme$(EXE_EXT): $(OBJS)
 $(STATICLIBTARGET): $(OBJS)
 	$(AR) $@ $(OBJS)
 
-$(OBJS): scheme.h scheme-private.h opdefines.h crt.h
+$(OBJS): scheme.h scheme-private.h opdefines.h crt.h ../mini-printf/mini-printf.h
 
 clean:
 	$(RM) $(OBJS) $(LIBTARGET) $(STATICLIBTARGET) scheme$(EXE_EXT)
