@@ -6,7 +6,7 @@
 #include <stdarg.h>
 #include "mini-printf.h"
 
-#define BASE_HEAP 0x100000
+#define BASE_HEAP 0x1000000
 
 // stdio.h
 #define EOF -1
