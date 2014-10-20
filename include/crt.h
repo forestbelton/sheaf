@@ -24,6 +24,7 @@ char *strcpy();
 size_t strlen();
 void *memcpy();
 void *memset();
+char *strlwr(char*);
 
 // stdlib.h
 void *malloc(size_t);

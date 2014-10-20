@@ -1,11 +1,18 @@
 #include "terminal.h"
-#include "crt.h"
+#include "scheme.h"
 
 void kernel_main() {
-    terminal_initialize();
+  scheme *sc;
+  
+  terminal_initialize();
+  
+  printf("Initializing Scheme...\n");
+  sc = scheme_init_new();
+  
+  printf("Setting I/O ports...\n");
+  scheme_set_input_port_file(sc, stdin);
+  scheme_set_output_port_file(sc, stdout);
 
-    char *x = malloc(20);
-    strcpy(x, "Forest");
-    
-    printf("Hello, %s!\n", x);
+  printf("Evaluating 1+1...\n");
+  scheme_load_string(sc, "(+ 1 1)");
 }

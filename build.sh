@@ -6,11 +6,11 @@ PATH="./tools/toolchain/bin:$PATH"
 rm -rf build
 mkdir build
 
-CFLAGS="-Iinclude -Imini-printf -std=gnu99 -ffreestanding -O2 -Wall -Wextra \
-    -Wno-unused-parameter"
+CFLAGS="-Iinclude -Imini-printf -Itinyscheme-1.40 -std=gnu99 -ffreestanding
+    -O2 -Wall -Wextra -Wno-unused-parameter"
 MODULES=("terminal" "crt" "kernel" "scanf" "strtol")
-OBJS="build/boot.o build/terminal.o build/crt.o build/kernel.o build/scanf.o"
-OBJS="$OBJS build/mini-printf.o build/malloc.o build/strtol.o"
+OBJS="build/boot.o build/terminal.o build/crt.o build/kernel.o build/scanf.o
+    build/mini-printf.o build/malloc.o build/strtol.o build/scheme.o"
 
 i686-elf-as src/boot.s -o build/boot.o
 
@@ -26,6 +26,10 @@ i686-elf-gcc $CFLAGS -c src/malloc.c -o build/malloc.o \
     -DLACKS_STRING_H -DLACKS_SYS_MMAN_H -DLACKS_FCNTL_H -DLACKS_UNISTD_H \
     -DLACKS_SYS_PARAM_H -DHAVE_MMAP=0 "-DMALLOC_FAILURE_ACTION=;" \
     -DLACKS_SYS_TYPES_H
+i686-elf-gcc $CFLAGS -Itinyscheme-1.40 -c tinyscheme-1.40/scheme.c \
+    -o build/scheme.o -DUSE_NO_FEATURES=1 -DUSE_STRCASECMP=0 -Wno-switch \
+    -Wno-implicit-function-declaration -Wno-maybe-uninitialized \
+    -Wno-unused-function -Wno-sign-compare
 
 i686-elf-gcc -T linker.ld -o build/sheaf.bin -ffreestanding -O2 -nostdlib \
     $OBJS -lgcc
