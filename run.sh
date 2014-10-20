@@ -1,2 +1,2 @@
 #!/bin/sh
-qemu-system-i386 build/sheaf.bin
+qemu-system-i386 -kernel build/sheaf.bin
