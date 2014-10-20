@@ -75,3 +75,18 @@ _start:
 # Set the size of the _start symbol to the current location '.' minus its start.
 # This is useful when debugging or when you implement call tracing.
 .size _start, . - _start
+
+.extern gp
+.global gdt_flush
+.type gdt_flush, @function
+gdt_flush:
+    lgdt gp
+    movw $0x10, %ax
+    movw %ax, %ds
+    movw %ax, %es
+    movw %ax, %fs
+    movw %ax, %gs
+    movw %ax, %ss
+    ljmp $0x08, $flush2
+flush2:
+    ret

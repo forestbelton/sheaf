@@ -1,9 +1,12 @@
 #include "terminal.h"
 #include "scheme.h"
 
+void gdt_install(void);
+
 void kernel_main() {
   scheme *sc;
-  
+
+  gdt_install();
   terminal_initialize();
   
   printf("Initializing Scheme...\n");
