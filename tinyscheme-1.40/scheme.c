@@ -772,11 +772,11 @@ static void check_cell_alloced(pointer p, int expect_alloced)
      sc.  */
   if(typeflag(p) & !expect_alloced)
     {
-      fprintf(stderr,"Cell is already allocated!\n");
+      printf("Cell is already allocated!\n");
     }
   if(!(typeflag(p)) & expect_alloced)
     {
-      fprintf(stderr,"Cell is not allocated!\n");
+      printf("Cell is not allocated!\n");
     }
 
 }
@@ -2446,8 +2446,7 @@ static pointer opexe_0(scheme *sc, enum scheme_opcodes op) {
      switch (op) {
      case OP_LOAD:       /* load */
           if(file_interactive(sc)) {
-               fprintf(sc->outport->_object._port->rep.stdio.file,
-               "Loading %s\n", strvalue(car(sc->args)));
+               printf("Loading %s\n", strvalue(car(sc->args)));
           }
           if (!file_push(sc,strvalue(car(sc->args)))) {
                Error_1(sc,"unable to open", car(sc->args));
@@ -4359,7 +4358,7 @@ static void Eval_Cycle(scheme *sc, enum scheme_opcodes op) {
       return;
     }
     if(sc->no_memory) {
-      fprintf(stderr,"No memory!\n");
+      printf("No memory!\n");
       return;
     }
   }
@@ -4866,7 +4865,7 @@ int main(int argc, char **argv) {
     return 1;
   }
   if(!scheme_init(&sc)) {
-    fprintf(stderr,"Could not initialize!\n");
+    printf("Could not initialize!\n");
     return 2;
   }
   scheme_set_input_port_file(&sc, stdin);
@@ -4904,7 +4903,7 @@ int main(int argc, char **argv) {
       fin=fopen(file_name,"r");
     }
     if(isfile && fin==0) {
-      fprintf(stderr,"Could not open file %s\n",file_name);
+      printf("Could not open file %s\n",file_name);
     } else {
       if(isfile) {
         scheme_load_named_file(&sc,fin,file_name);
@@ -4913,7 +4912,7 @@ int main(int argc, char **argv) {
       }
       if(!isfile || fin!=stdin) {
     if(sc.retcode!=0) {
-      fprintf(stderr,"Errors encountered reading %s\n",file_name);
+      printf("Errors encountered reading %s\n",file_name);
     }
     if(isfile) {
       fclose(fin);

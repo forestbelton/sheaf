@@ -6,10 +6,6 @@ FILE *fopen(const char *name, const char *mode) {
 
 void fclose(FILE *f) {}
 
-int fprintf(FILE *f, const char *fmt, ...) {
-  return 0;
-}
-
 int printf(const char *fmt, ...) {
   return 0;
 }

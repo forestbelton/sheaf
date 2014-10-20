@@ -10,7 +10,6 @@ typedef struct FILE FILE;
 typedef unsigned int size_t;
 
 int printf(const char *, ...);
-int fprintf(FILE *, const char *, ...);
 int fwrite();
 FILE *fopen();
 int sscanf(const char *, const char *, ...);
