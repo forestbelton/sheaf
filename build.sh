@@ -8,12 +8,16 @@ mkdir build
 
 CFLAGS="-Iinclude -Imini-printf -Itinyscheme-1.40 -std=gnu99 -ffreestanding
     -O2 -Wall -Wextra -Wno-unused-parameter"
-MODULES=("terminal" "crt" "kernel" "scanf" "strtol" "gdt" "idt")
-OBJS="build/boot.o build/terminal.o build/crt.o build/kernel.o build/scanf.o
-    build/mini-printf.o build/malloc.o build/strtol.o build/scheme.o
-    build/gdt.o build/idt.o"
+MODULES=("terminal" "crt" "kernel" "scanf" "strtol" "gdt" "idt" "irq"
+    "keyboard" "isrs")
+OBJS="build/boot.o build/irq.o build/terminal.o build/crt.o build/kernel.o
+    build/scanf.o build/mini-printf.o build/malloc.o build/strtol.o
+    build/scheme.o build/gdt.o build/idt.o build/keyboard.o build/irqs.o
+    build/isrs.o build/isrr.o"
 
 i686-elf-as src/boot.s -o build/boot.o
+i686-elf-as src/isrr.s -o build/isrr.o
+i686-elf-as src/irqs.s -o build/irqs.o
 
 for MOD in "${MODULES[@]}"
 do

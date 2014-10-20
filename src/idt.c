@@ -58,10 +58,6 @@ void idt_install()
     /* Clear out the entire IDT, initializing it to zeros */
     memset(&idt, 0, sizeof(struct idt_entry) * 256);
 
-    /* Add any new ISRs to the IDT here using idt_set_gate */
-
-
-
     /* Points the processor's internal register to the new IDT */
     idt_load();
 }

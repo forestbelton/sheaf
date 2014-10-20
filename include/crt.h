@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include "mini-printf.h"
+#include "sys.h"
 
 #define BASE_HEAP 0x1000000
 
