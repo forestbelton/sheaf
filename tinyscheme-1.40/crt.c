@@ -18,7 +18,7 @@ int sscanf(const char *s, const char *fmt, ...) {
   return 0;
 }
 
-int fputs(FILE *f, const char *s) {
+int fputs(const char *s, FILE *f) {
   return 0;
 }
 
