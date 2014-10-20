@@ -9,7 +9,7 @@
 typedef struct FILE FILE;
 typedef unsigned int size_t;
 
-int printf(const char *, ...);
+int printf(char *, ...);
 int fwrite();
 FILE *fopen();
 int sscanf(const char *, const char *, ...);
@@ -27,5 +27,7 @@ void *memset();
 void *malloc();
 void free();
 char *getenv();
+
+int tolower(int);
 
 #endif

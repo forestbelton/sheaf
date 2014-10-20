@@ -1,12 +1,26 @@
 #include "crt.h"
+#include "terminal.h"
+#include <stdarg.h>
+#include "mini-printf.h"
 
 FILE *fopen(const char *name, const char *mode) {
   return NULL;
 }
 
-void fclose(FILE *f) {}
+void fclose(FILE *f) {
+}
 
-int printf(const char *fmt, ...) {
+int printf(char *fmt, ...) {
+  static char buf[100];
+  
+  va_list args;
+  va_start(args, fmt);
+  
+  vsnprintf(buf, sizeof buf - 1, fmt, args);
+  va_end(args);
+
+  terminal_writestring(buf);
+  
   return 0;
 }
 

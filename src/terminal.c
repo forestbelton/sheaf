@@ -34,14 +34,6 @@ uint16_t make_vgaentry(char c, uint8_t color)
 	return c16 | color16 << 8;
 }
  
-size_t strlen(const char* str)
-{
-	size_t ret = 0;
-	while ( str[ret] != 0 )
-		ret++;
-	return ret;
-}
- 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
  
