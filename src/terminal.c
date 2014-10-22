@@ -113,3 +113,11 @@ void terminal_writestring(const char* data)
   while(*data)
     terminal_putchar(*data++);
 }
+
+void terminal_goback() {
+  if(terminal_column != 0) {
+      --terminal_column;
+      terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+      update_cursor();
+  }
+}

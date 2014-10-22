@@ -4,6 +4,7 @@
 *
 *  Notes: No warranty expressed or implied. Use at own risk. */
 #include "crt.h"
+#include "terminal.h"
 #include "isr.h"
 
 char _keybuf[300];
@@ -116,6 +117,13 @@ void keyboard_handler(registers_t r)
         if(isprint(key)) {
             printf("%c", key);
         }
+
+        if(scancode == 0x0e && _keybufpos > 0) {
+            _keybuf[_keybufpos--] = 0;
+            terminal_goback();
+            return;
+        }
+
         if(key == '\n') {
             _keybuf[_keybufpos] = 0;
 
@@ -123,9 +131,7 @@ void keyboard_handler(registers_t r)
             
             _keybufpos = 0;
             _keybuf[0] = 0;
-        }
-
-        else if(_keybufpos < sizeof _keybuf - 1) {
+        } else if(_keybufpos < sizeof _keybuf - 1) {
             _keybuf[_keybufpos++] = key;
         }
     }
