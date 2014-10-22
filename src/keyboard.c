@@ -6,7 +6,7 @@
 #include "crt.h"
 #include "isr.h"
 
-char _keybuf[100];
+char _keybuf[300];
 size_t _keybufpos = 0;
 
 extern void interp_line(const char *);

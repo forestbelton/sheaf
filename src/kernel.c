@@ -7,7 +7,9 @@ extern void keyboard_install();
 scheme *sc;
 
 void interp_line(const char *in) {
-  scheme_load_string(sc, in);
+  static char buf[400];
+  snprintf(buf, sizeof buf - 1, "(display %s)", in);
+  scheme_load_string(sc, buf);
   printf("\n> ");
 }
 
@@ -20,10 +22,8 @@ void kernel_main() {
   __asm__ __volatile__ ("sti");
   
   sc = scheme_init_new();
-  for(;;);
-  
-  //  scheme_set_input_port_file(sc, stdin);
-  //  scheme_set_output_port_file(sc, stdout);
+  scheme_set_input_port_file(sc, stdin);
+  scheme_set_output_port_file(sc, stdout);
 
-  //  scheme_load_string(sc, "(let ((x (+ 1 1))) (display x))");
+  for(;;);
 }
