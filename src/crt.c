@@ -149,8 +149,9 @@ float atof(const char *in) {
 long atol(const char *in) {
   long sgn = 1, val = 0;
   
-  if(*in++ == '-') {
+  if(*in == '-') {
     sgn = -1;
+    in++;
   }
 
   while(*in) {
