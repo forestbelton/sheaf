@@ -105,20 +105,13 @@ void keyboard_handler(registers_t r)
     /* Read from the keyboard's data buffer */
     scancode = inb(0x60);
 
-    /* If the top bit of the byte we read from the keyboard is
-    *  set, that means that a key has just been released */
-    if (scancode & 0x80)
-    {
-        switch(scancode & 0x7f) {
-        case 0x12:
-        case 0x59:
-          shifted = 0;
-        }
-    }
-    else if(scancode == 0x12 && scancode == 0x59) {
-        shifted = 1;
-    } else {
-        char key = shifted ? kbdus[scancode] : kbdus_shift[scancode];
+    int pressed = !(scancode & 0x80);
+    scancode = scancode & 0x7f;
+
+    if(scancode == 0x2a || scancode == 0x36) {
+        shifted = pressed;
+    } else if(pressed) {
+        char key = shifted ? kbdus_shift[scancode] : kbdus[scancode];
         printf("%c", key);
         
         if(key == '\n') {
