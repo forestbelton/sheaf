@@ -1,4 +1,5 @@
 #include "terminal.h"
+#include "crt.h"
 #include <stddef.h>
 #include <stdint.h>
 
@@ -42,7 +43,15 @@ size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
- 
+
+static void update_cursor() {
+    uint16_t loc = terminal_row * VGA_WIDTH + terminal_column;
+    outb(0x3d4, 14);
+    outb(0x3d5, loc >> 8);
+    outb(0x3d4, 15);
+    outb(0x3d5, loc & 0xff);
+}
+
 void terminal_initialize()
 {
 	terminal_row = 0;
@@ -77,6 +86,7 @@ void terminal_putchar(char c)
     if(++terminal_row == VGA_HEIGHT) {
       terminal_row = 0;
     }
+    update_cursor();
     return;
   }
   
@@ -89,6 +99,8 @@ void terminal_putchar(char c)
 			terminal_row = 0;
 		}
 	}
+
+    update_cursor();
 }
  
 void terminal_writestring(const char* data)
