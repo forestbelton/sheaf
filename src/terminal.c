@@ -89,6 +89,11 @@ void terminal_putchar(char c)
     update_cursor();
     return;
   }
+
+  if(c == '\r') {
+      terminal_column = 0;
+      update_cursor();
+  }
   
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 	if ( ++terminal_column == VGA_WIDTH )
