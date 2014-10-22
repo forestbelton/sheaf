@@ -1,5 +1,6 @@
 #include "descriptor_tables.h"
 #include "terminal.h"
+
 #include "scheme.h"
 
 extern char init_scm[];
@@ -26,6 +27,7 @@ void kernel_main() {
   scheme_set_input_port_file(sc, stdin);
   scheme_set_output_port_file(sc, stdout);
   scheme_load_string(sc, &init_scm[0]);
+  scheme_load_exts(sc);
 
   for(;;);
 }

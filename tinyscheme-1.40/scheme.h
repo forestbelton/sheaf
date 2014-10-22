@@ -229,6 +229,8 @@ void scheme_register_foreign_func_list(scheme * sc,
 
 #endif /* !STANDALONE */
 
+void scheme_load_exts();
+     
 #ifdef __cplusplus
 }
 #endif

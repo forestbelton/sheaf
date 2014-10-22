@@ -370,6 +370,47 @@ static void assign_proc(scheme *sc, enum scheme_opcodes, char *name);
 #define num_ivalue(n)       (n.is_fixnum?(n).value.ivalue:(long)(n).value.rvalue)
 #define num_rvalue(n)       (!n.is_fixnum?(n).value.rvalue:(double)(n).value.ivalue)
 
+pointer scm_outb(scheme *sc, pointer args) {
+     pointer arg_val, arg_port;
+     uint8_t  val;
+     uint16_t port;
+     
+     if(args == sc->NIL)
+         return sc->F;
+
+     arg_val  = pair_car(args);
+     arg_port = pair_car(pair_cdr(args));
+
+     if(!(is_integer(arg_val) && is_integer(arg_port)))
+         return sc->F;
+
+     val  = ivalue(arg_val);
+     port = ivalue(arg_port);
+     
+     asm volatile ("outb %0, %1" : : "a"(val), "Nd"(port));
+     return sc->T;
+}
+
+pointer scm_inb(scheme *sc, pointer args) {
+     pointer arg_port;
+     uint16_t port;
+     uint8_t  ret;
+
+     if(args == sc->NIL || !is_integer(arg_port = pair_car(args)))
+          return sc->F;
+
+     port = ivalue(arg_port);
+     asm volatile ("inb %1, %0" : "=a"(ret) : "Nd"(port));
+     return mk_integer(sc, ret);
+}
+
+void scheme_load_exts(scheme *sc) {
+     scheme_define(sc, sc->global_env, mk_symbol(sc, "outb"),
+                   mk_foreign_func(sc, scm_outb));
+     scheme_define(sc, sc->global_env, mk_symbol(sc, "inb"),
+                   mk_foreign_func(sc, scm_inb));
+}
+
 static num num_add(num a, num b) {
  num ret;
  ret.is_fixnum=a.is_fixnum && b.is_fixnum;
