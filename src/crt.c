@@ -128,6 +128,11 @@ int isupper(int c) {
   ISCLASS("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 }
 
+int isprint(int c) {
+  ISCLASS("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+          "`1234567890-=~!@#$%^&*()_+[]\\;',./{}|:\"<>? \r\n\t\v\f");
+}
+
 int tolower(int c) {
   if(c >= 'A' && c <= 'Z')
     return (c - 'A') + 'a';

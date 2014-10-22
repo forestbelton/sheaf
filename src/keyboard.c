@@ -112,8 +112,10 @@ void keyboard_handler(registers_t r)
         shifted = pressed;
     } else if(pressed) {
         char key = shifted ? kbdus_shift[scancode] : kbdus[scancode];
-        printf("%c", key);
-        
+
+        if(isprint(key)) {
+            printf("%c", key);
+        }
         if(key == '\n') {
             _keybuf[_keybufpos] = 0;
 

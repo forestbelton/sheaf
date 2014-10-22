@@ -37,6 +37,7 @@ int isspace(int);
 int isdigit(int);
 int tolower(int);
 int isxdigit(int);
+int isprint(int);
 
 long strtol(const char *str, char **endptr, int base);
 
