@@ -59,6 +59,7 @@ _start:
 	# We are now ready to actually execute C code. We cannot embed that in an
 	# assembly file, so we'll create a kernel.c file in a moment. In that file,
 	# we'll create a C entry point called kernel_main and call it here.
+    cli
 	call kernel_main
 
 	# In case the function returns, we'll want to put the computer into an
@@ -67,34 +68,11 @@ _start:
 	# the next interrupt arrives, and jumping to the halt instruction if it ever
 	# continues execution, just to be safe. We will create a local label rather
 	# than real symbol and jump to there endlessly.
-	cli
-	hlt
 .Lhang:
+    hlt
 	jmp .Lhang
 
 # Set the size of the _start symbol to the current location '.' minus its start.
 # This is useful when debugging or when you implement call tracing.
 .size _start, . - _start
-
-.extern gp
-.global gdt_flush
-.type gdt_flush, @function
-gdt_flush:
-    lgdt gp
-    movw $0x10, %ax
-    movw %ax, %ds
-    movw %ax, %es
-    movw %ax, %fs
-    movw %ax, %gs
-    movw %ax, %ss
-    ljmp $0x08, $flush2
-flush2:
-    ret
-
-.extern idtp
-.global idt_load
-.type idt_load, @function
-idt_load:
-    lidt idtp
-    ret
 
