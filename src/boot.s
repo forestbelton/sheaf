@@ -76,3 +76,7 @@ _start:
 # This is useful when debugging or when you implement call tracing.
 .size _start, . - _start
 
+.section .end
+.global kernel_end
+kernel_end:
+    .long 0

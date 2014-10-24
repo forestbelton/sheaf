@@ -180,11 +180,19 @@ void *memset(void *p, int val, size_t cnt) {
   return p;
 }
 
-void *sbrk(int inc) {
-  static char *memptr = (char *)BASE_HEAP;
-  char *old = memptr;
+extern uint32_t kernel_end;
 
+void *sbrk(int inc) {
+  static char *memptr = NULL;
+  char *old;
+
+  if(!memptr) {
+    memptr = (char *)&kernel_end;
+  }
+
+  old = memptr;
   memptr += inc;
+
   return old;
 }  
 

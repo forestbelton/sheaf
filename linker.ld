@@ -39,6 +39,6 @@ SECTIONS
 		*(.bootstrap_stack)
 	}
 
-	/* The compiler may produce other sections, by default it will put them in
-	   a segment with the same name. Simply add stuff here as needed. */
+    .comment  BLOCK(4K) : ALIGN(4K) { *(.comment)  }
+    .end      BLOCK(4K) : ALIGN(4K) { *(.end) }
 }

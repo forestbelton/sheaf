@@ -7,8 +7,6 @@
 #include <stdarg.h>
 #include "mini-printf.h"
 
-#define BASE_HEAP 0x1000000
-
 // stdio.h
 #define EOF -1
 typedef struct FILE FILE;
