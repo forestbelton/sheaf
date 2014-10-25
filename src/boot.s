@@ -76,6 +76,11 @@ _start:
 # This is useful when debugging or when you implement call tracing.
 .size _start, . - _start
 
+.global init_scm
+init_scm:
+  .incbin "tinyscheme-1.40/init.scm"
+  .byte 0
+
 .section .end
 .global kernel_end
 kernel_end:

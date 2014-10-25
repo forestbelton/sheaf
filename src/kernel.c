@@ -2,6 +2,7 @@
 #include "terminal.h"
 #include "scheme.h"
 
+extern char init_scm[];
 extern void keyboard_install();
 
 scheme *sc;
@@ -24,6 +25,7 @@ void kernel_main() {
   sc = scheme_init_new();
   scheme_set_input_port_file(sc, stdin);
   scheme_set_output_port_file(sc, stdout);
+  scheme_load_string(sc, &init_scm[0]);
 
   for(;;);
 }
