@@ -3,49 +3,31 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/* Hardware text mode color constants. */
-enum vga_color
-{
-	COLOR_BLACK = 0,
-	COLOR_BLUE = 1,
-	COLOR_GREEN = 2,
-	COLOR_CYAN = 3,
-	COLOR_RED = 4,
-	COLOR_MAGENTA = 5,
-	COLOR_BROWN = 6,
-	COLOR_LIGHT_GREY = 7,
-	COLOR_DARK_GREY = 8,
-	COLOR_LIGHT_BLUE = 9,
-	COLOR_LIGHT_GREEN = 10,
-	COLOR_LIGHT_CYAN = 11,
-	COLOR_LIGHT_RED = 12,
-	COLOR_LIGHT_MAGENTA = 13,
-	COLOR_LIGHT_BROWN = 14,
-	COLOR_WHITE = 15,
-};
- 
-uint8_t make_color(enum vga_color fg, enum vga_color bg)
-{
-	return fg | bg << 4;
+#define TEXT_COL 0xf
+
+#define VGA_WIDTH  80
+#define VGA_HEIGHT 25
+
+static size_t x = 0, y = 0;
+static volatile uint16_t *buf = (uint16_t *)0xb8000;
+static char bufcpy[VGA_HEIGHT][VGA_WIDTH];
+
+static inline void bufset(size_t x, size_t y, char c) {
+    bufcpy[y][x] = c;
+    buf[y * VGA_WIDTH + x] = (TEXT_COL << 8) | c;
 }
- 
-uint16_t make_vgaentry(char c, uint8_t color)
-{
-	uint16_t c16 = c;
-	uint16_t color16 = color;
-	return c16 | color16 << 8;
+
+static void terminal_flush() {
+    for(size_t yi = 0; yi < VGA_HEIGHT; yi++) {
+        for(size_t xi = 0; xi < VGA_WIDTH; xi++) {
+            bufset(xi, yi, bufcpy[yi][xi]);
+        }
+    }
 }
- 
-static const size_t VGA_WIDTH = 80;
-static const size_t VGA_HEIGHT = 25;
- 
-size_t terminal_row;
-size_t terminal_column;
-uint8_t terminal_color;
-uint16_t* terminal_buffer;
 
 static void update_cursor() {
-    uint16_t loc = terminal_row * VGA_WIDTH + terminal_column;
+    uint16_t loc = y * VGA_WIDTH + x;
+
     outb(0x3d4, 14);
     outb(0x3d5, loc >> 8);
     outb(0x3d4, 15);
@@ -54,70 +36,55 @@ static void update_cursor() {
 
 void terminal_initialize()
 {
-	terminal_row = 0;
-	terminal_column = 0;
-	terminal_color = make_color(COLOR_LIGHT_GREY, COLOR_BLACK);
-	terminal_buffer = (uint16_t*) 0xB8000;
-	for ( size_t y = 0; y < VGA_HEIGHT; y++ )
-	{
-		for ( size_t x = 0; x < VGA_WIDTH; x++ )
-		{
-			const size_t index = y * VGA_WIDTH + x;
-			terminal_buffer[index] = make_vgaentry(' ', terminal_color);
-		}
-	}
+    memset(&bufcpy[0][0], ' ', sizeof bufcpy);
+    terminal_flush();
+    update_cursor();
 }
- 
-void terminal_setcolor(uint8_t color)
-{
-	terminal_color = color;
+
+static void next_line() {
+    size_t yi;
+
+    if(++y == VGA_HEIGHT - 1) {
+        size_t yi;
+
+        for(yi = 1; yi < VGA_HEIGHT; yi++) {
+            memcpy(&bufcpy[yi - 1][0], &bufcpy[yi][0], sizeof bufcpy[yi]);
+        }
+
+        --y;
+        terminal_flush();
+    }
 }
- 
-void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
-{
-	const size_t index = y * VGA_WIDTH + x;
-	terminal_buffer[index] = make_vgaentry(c, color);
-}
- 
+
 void terminal_putchar(char c)
 {
-  if(c == '\n') {
-    terminal_column = 0;
-    if(++terminal_row == VGA_HEIGHT) {
-      terminal_row = 0;
+    switch(c) {
+    case '\n':
+        x = 0;
+        next_line();
+        break;
+
+    case '\r':
+        x = 0;
+        break;
+
+    default:
+        if(!isprint(c)) {
+            return;
+        }
+
+        bufset(x, y, c);
+        if(++x == VGA_WIDTH) {
+            next_line();
+        }
     }
-    update_cursor();
-    return;
-  }
-
-  if(c == '\r') {
-      terminal_column = 0;
-      update_cursor();
-  }
-  
-	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-	if ( ++terminal_column == VGA_WIDTH )
-	{
-		terminal_column = 0;
-		if ( ++terminal_row == VGA_HEIGHT )
-		{
-			terminal_row = 0;
-		}
-	}
 
     update_cursor();
-}
- 
-void terminal_writestring(const char* data)
-{
-  while(*data)
-    terminal_putchar(*data++);
 }
 
 void terminal_goback() {
-  if(terminal_column != 0) {
-      --terminal_column;
-      terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+  if(x != 0) {
+      bufset(x--, y, ' ');
       update_cursor();
   }
 }
