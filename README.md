@@ -17,6 +17,6 @@ running
 -------
 
 ```bash
-./build.sh
+make
 ./run.sh
 ```
