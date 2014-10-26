@@ -24,7 +24,10 @@ build/sheaf.bin: $(OBJS)
 %.o: %.s
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-.PHONY: clean
+.PHONY: clean run
 
 clean:
 	rm -rf build/* src/*.o tinyscheme-1.40/*.o
+
+run: build/sheaf.bin
+	qemu-system-i386 -kernel build/sheaf.bin
