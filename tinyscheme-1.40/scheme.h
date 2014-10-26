@@ -3,7 +3,7 @@
 #ifndef _SCHEME_H
 #define _SCHEME_H
 
-#include "crt.h"
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 # define USE_STRCASECMP 0
-# define USE_STRLWR 0
+# define USE_STRLWR 1
 # define SCHEME_EXPORT
 
 #if USE_NO_FEATURES

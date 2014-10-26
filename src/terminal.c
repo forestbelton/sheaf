@@ -1,5 +1,5 @@
+#include "kernel.h"
 #include "terminal.h"
-#include "crt.h"
 #include <stddef.h>
 #include <stdint.h>
 

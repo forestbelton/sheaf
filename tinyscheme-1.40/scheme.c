@@ -21,9 +21,11 @@
 # include <math.h>
 #endif
 
+#include <stdint.h>
+#include <stdlib.h>
 #include <limits.h>
 #include <float.h>
-//#include <ctype.h>
+#include <ctype.h>
 
 #if USE_STRCASECMP
 #include <strings.h>
@@ -58,7 +60,6 @@
 
 #define banner "TinyScheme 1.39"
 
-#ifdef __APPLE__
 static int stricmp(const char *s1, const char *s2)
 {
   unsigned char c1, c2;
@@ -73,7 +74,6 @@ static int stricmp(const char *s1, const char *s2)
   } while (c1 != 0);
   return 0;
 }
-#endif /* __APPLE__ */
 
 #if USE_STRLWR
 static const char *strlwr(char *s) {

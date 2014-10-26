@@ -1,5 +1,5 @@
+#include "kernel.h"
 #include "isr.h"
-#include "crt.h"
 
 isr_t interrupt_handlers[256];
 

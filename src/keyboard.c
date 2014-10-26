@@ -3,7 +3,8 @@
 *  Desc: Keyboard driver
 *
 *  Notes: No warranty expressed or implied. Use at own risk. */
-#include "crt.h"
+#include <stdio.h>
+#include "kernel.h"
 #include "terminal.h"
 #include "isr.h"
 

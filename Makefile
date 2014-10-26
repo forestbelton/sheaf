@@ -23,7 +23,7 @@ SOBJS := $(patsubst %.s, %.o, $(SFILES))
 OBJS := $(COBJS) $(SOBJS)
 
 build/sheaf.bin: $(OBJS)
-	$(CC) $(CFLAGS) -T linker.ld -o $@ $(OBJS) -lgcc
+	$(CC) $(CFLAGS) -T linker.ld -o $@ $(OBJS) -lgcc -lc
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<

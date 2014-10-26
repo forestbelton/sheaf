@@ -5,6 +5,7 @@ GCC_VERSION=4.9.1
 GMP_VERSION=6.0.0a
 MPFR_VERSION=3.1.2
 MPC_VERSION=1.0.2
+NEWLIB_VERSION=2.1.0
 
 PREFIX="$(pwd)/toolchain"
 TARGET=i686-elf
@@ -39,7 +40,8 @@ rm -rf gcc-build
 mkdir gcc-build
 cd gcc-build
 "../gcc-$GCC_VERSION/configure" "--prefix=$PREFIX" "--target=$TARGET" \
-    --disable-nls --enable-languages=c --without-headers --disable-shared
+    --disable-nls --enable-languages=c --without-headers --disable-shared \
+    --with-newlib
 
 make all-gcc
 make all-target-libgcc
@@ -48,23 +50,12 @@ make install-target-libgcc
 
 cd ..
 
-# wget -nc ftp://sourceware.org/pub/newlib/newlib-2.1.0.tar.gz
-# tar xvzf newlib-2.1.0.tar.gz
-# rm -rf build-newlib
-# mkdir build-newlib
-# cd build-newlib
-# ../newlib-2.1.0/configure "--target=$TARGET" "--prefix=$PREFIX"
-# make all
-# make install
-# cd ..
-
-# cd gcc-build
-# "../gcc-$GCC_VERSION/configure" "--prefix=$PREFIX" "--target=$TARGET" \
-#     --disable-nls --enable-languages=c --without-headers --with-newlib \
-#     --disable-shared
-
-# make all-gcc
-# make all-target-libgcc
-# make install-gcc
-# make install-target-libgcc
+wget -nc "ftp://sourceware.org/pub/newlib/newlib-$NEWLIB_VERSION.tar.gz"
+tar xvzf "newlib-$NEWLIB_VERSION.tar.gz"
+rm -rf newlib-build
+mkdir newlib-build
+cd newlib-build
+../newlib-2.1.0/configure "--target=$TARGET" "--prefix=$PREFIX"
+make all
+make install
 
