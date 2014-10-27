@@ -115,13 +115,12 @@ void keyboard_handler(registers_t r)
     } else if(pressed) {
         char key = shifted ? kbdus_shift[scancode] : kbdus[scancode];
 
-        if(isprint(key)) {
+        if(isprint(key) || key == '\b') {
             printf("%c", key);
         }
 
-        if(scancode == 0x0e && _keybufpos > 0) {
+        if(key == '\b' && _keybufpos > 0) {
             _keybuf[_keybufpos--] = 0;
-            terminal_goback();
             return;
         }
 

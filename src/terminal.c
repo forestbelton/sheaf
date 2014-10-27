@@ -59,6 +59,12 @@ static void next_line() {
 void terminal_putchar(char c)
 {
     switch(c) {
+    case '\b':
+        if(x != 0) {
+            bufset(--x, y, ' ');
+        }
+        break;
+        
     case '\n':
         x = 0;
         next_line();
@@ -82,9 +88,3 @@ void terminal_putchar(char c)
     update_cursor();
 }
 
-void terminal_goback() {
-  if(x != 0) {
-      bufset(x--, y, ' ');
-      update_cursor();
-  }
-}
